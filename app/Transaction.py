@@ -20,3 +20,11 @@ class Transaction:
     def summarize_by_target(self):
         summary = self.transactions.groupby("Target", as_index=False)["Amount"].sum()
         print(summary)
+
+    def import_csv(self, csv):
+        data = pd.read_csv(csv)
+        self.transactions = pd.concat([self.transactions, data], ignore_index=True)
+
+    def import_transaction(self, imported_transactions):
+        for transaction in imported_transactions:
+            self.add_transaction(transaction["Target"], transaction["Amount"])
